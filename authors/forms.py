@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 
 def add_attr(field, attr_name, attr_new_val):
@@ -8,7 +9,7 @@ def add_attr(field, attr_name, attr_new_val):
 
 
 def add_placeholder(field, placeholder_val):
-    field.widget.attrs['placeholder'] = placeholder_val
+    add_attr(field, 'placeholder', placeholder_val)
 
 
 class RegisterForm(forms.ModelForm):
@@ -18,6 +19,7 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['email'], 'Your email')
         add_placeholder(self.fields['first_name'], 'Your first name')
         add_placeholder(self.fields['last_name'], 'Your last name')
+        add_attr(self.fields['username'], 'css', 'a-css-class')
 
     password2 = forms.CharField(
         required=True,
@@ -69,3 +71,44 @@ class RegisterForm(forms.ModelForm):
                 'placeholder': 'Type your password here'
             })
         }
+
+    def clean_password(self):
+        data = self.cleaned_data.get('password')
+
+        if 'atenção' in data:
+            raise ValidationError(
+                'Não digite %(pipoca)s no campo password',
+                code='invalid',
+                params={'pipoca': '"atenção"'}
+            )
+
+        return data
+
+    def clean_first_name(self):
+        data = self.cleaned_data.get('first_name')
+
+        if 'John Doe' in data:
+            raise ValidationError(
+                'Não digite %(value)s no campo first name',
+                code='invalid',
+                params={'value': '"John Doe"'}
+            )
+
+        return data
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        password = cleaned_data.get('password')
+        password2 = cleaned_data.get('password2')
+
+        if password != password2:
+            password_confirmation_error = ValidationError(
+                'Password and password2 must be equal',
+                code='invalid'
+            )
+            raise ValidationError({
+                'password2': [
+                    password_confirmation_error,
+                ],
+            })
