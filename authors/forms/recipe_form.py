@@ -74,7 +74,8 @@ class AuthorRecipeForm(forms.ModelForm):
 
     def clean_preparation_time(self):
         field_name = 'preparation_time'
-        field_value = self.cleaned_data.get('field_name')
+        field_value = self.cleaned_data.get(field_name)
+
         if not is_positive_number(field_value):
             self._my_errors[field_name].append(
                 'Must be a positive number.'
@@ -84,7 +85,7 @@ class AuthorRecipeForm(forms.ModelForm):
 
     def clean_servings(self):
         field_name = 'servings'
-        field_value = self.cleaned_data.get('field_name')
+        field_value = self.cleaned_data.get(field_name)
         if not is_positive_number(field_value):
             self._my_errors[field_name].append(
                 'Must be a positive number.'
