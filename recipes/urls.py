@@ -19,8 +19,11 @@ urlpatterns = [
          name="recipe"),
     path('recipes/api/v1/',
          views.RecipeListViewHomeApi.as_view(),
-         name="recipe_api_v1"),
+         name="api_v1"),
     path('recipes/api/v1/<int:pk>/',
          views.RecipeDetailApi.as_view(),
-         name="recipe_api_v1_detail"),
+         name="api_v1_detail"),
+    path('recipes/theory',
+         views.theory,
+         name="theory"),
 ]
