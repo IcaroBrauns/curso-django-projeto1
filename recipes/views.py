@@ -1,6 +1,7 @@
 import os
 
 from django.db.models import Q
+from django.db.models.aggregates import Count
 from django.forms.models import model_to_dict
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
@@ -13,9 +14,18 @@ PER_PAGE = int(os.environ.get('PER_PAGE', 6))
 
 
 def theory(request, *args, **kwargs):
+    recipes = Recipe.objects.get_published()
+    number_of_recipes = recipes.aggregate(number=Count('id'))
+
+    context = {
+        'recipes': recipes,
+        'number_of_recipes': number_of_recipes['number']
+    }
+
     return render(
         request,
-        'recipes/pages/theory.html'
+        'recipes/pages/theory.html',
+        context=context
     )
 
 
@@ -148,8 +158,8 @@ class RecipeDetailApi(RecipeDetail):
         recipe_dict['updated_at'] = str(recipe.updated_at)
 
         if recipe_dict.get('cover'):
-            recipe_dict['cover'] = self.request.build_absolute_uri() + \
-                recipe_dict['cover'].url[1:]
+            recipe_dict['cover'] = self.request.build_absolute_uri()
+            recipe_dict['cover'].url[1:]
         else:
             recipe_dict['cover'] = ''
 

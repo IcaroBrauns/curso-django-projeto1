@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'authors',
     'recipes',
     'debug_toolbar',
+    'tag',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
