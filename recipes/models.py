@@ -50,7 +50,7 @@ class Recipe(models.Model):
         default=None)
     author = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, blank=True)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True, default='')
 
     def __str__(self):
         return self.title
