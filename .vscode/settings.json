@@ -63,5 +63,6 @@
     "workbench.colorTheme": "OM Theme (Night Owl Italic)",
     "workbench.iconTheme": "material-icon-theme",
     "explorer.compactFolders": false,
-    "git.confirmSync": false
+    "git.confirmSync": false,
+    "python.analysis.typeCheckingMode": "basic"
 }
