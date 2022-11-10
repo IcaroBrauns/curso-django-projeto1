@@ -61,7 +61,7 @@ urlpatterns = [
         name='recipe_api_v2_tag',
     ),
     path(
-        'recips/api/token/',
+        'recipes/api/token/',
         TokenObtainPairView.as_view(),
         name='token_obtain_pair'
     ),
