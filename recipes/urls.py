@@ -11,7 +11,7 @@ recipe_api_v2_router = SimpleRouter()
 recipe_api_v2_router.register(
     'recipes/api/v2',
     views.RecipeAPIv2ViewSet,
-    basename='recipe-api'
+    basename='recipes-api'
 )
 
 urlpatterns = [
@@ -43,12 +43,12 @@ urlpatterns = [
     path(
         'recipes/api/v1/',
         views.RecipeListViewHomeApi.as_view(),
-        name="api_v1"
+        name="recipes_api_v1"
     ),
     path(
         'recipes/api/v1/<int:pk>/',
         views.RecipeDetailApi.as_view(),
-        name="api_v1_detail"
+        name="recipes_api_v1_detail"
     ),
     path(
         'recipes/theory',
@@ -58,7 +58,7 @@ urlpatterns = [
     path(
         'recipes/api/v2/tag/<int:pk>/',
         views.tag_api_detail,
-        name='recipe_api_v2_tag',
+        name='recipes_api_v2_tag',
     ),
     path(
         'recipes/api/token/',
@@ -76,5 +76,5 @@ urlpatterns = [
         name='token_verify'
     ),
     # Por ultimo!
-    path('', include(recipe_api_v2_router.urls))
+    path('', include(recipe_api_v2_router.urls)),
 ]
